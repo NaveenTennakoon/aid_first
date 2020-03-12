@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "42482863208",
+    "firebase_url": "https://aidfirst-mobile.firebaseio.com",
+    "project_id": "aidfirst-mobile",
+    "storage_bucket": "aidfirst-mobile.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:42482863208:android:84a8acd2c2441744db7fdd",
+        "android_client_info": {
+          "package_name": "com.example.aid_first"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "42482863208-3v8dekub735qkq7ijc7tlfvosn65loki.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAruesZCTdOR2zUrqQBKdAGLjNiZHFIHvg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "42482863208-3v8dekub735qkq7ijc7tlfvosn65loki.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
