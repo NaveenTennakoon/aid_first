@@ -128,7 +128,7 @@ class _LoginPageState extends State<LoginPage> {
         RaisedButton(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
           onPressed: () {
-            // anonymously continue
+            Navigator.pushNamed(context, '/anonymous');
           },
           padding: EdgeInsets.all(12),
           color: Colors.red,
