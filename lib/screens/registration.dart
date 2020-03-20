@@ -1,22 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class LoginPage extends StatefulWidget {
+class RegistrationPage extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _RegistrationPageState createState() => _RegistrationPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegistrationPageState extends State<RegistrationPage> {
   GlobalKey<FormState> _key = GlobalKey();
+  UserUpdateInfo profileUpdates = UserUpdateInfo();
   String _email;
   String _password;
+  String _username;
   bool _obscureText = true;
 
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<Null> signIn(String email, String password) async {
+  Future<Null> signUp(String email, String password) async {
     try {
-      await _auth.signInWithEmailAndPassword(email: email, password: password);
+      AuthResult result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      FirebaseUser user = result.user;
+      profileUpdates.displayName = _username;
+      await user.updateProfile(profileUpdates);
     } 
     catch(error) {
       showDialog(
@@ -45,18 +50,18 @@ class _LoginPageState extends State<LoginPage> {
                 key: _key,
                 autovalidate: true,
                 child: _form(),
-              ),
-            ),
-          ),
-        ),
-      ),
+              )
+            )
+          )
+        )
+      )
     );
   }
 
   Widget _form() {
     return Column(
       children: <Widget>[
-        SizedBox(height: 45.0),
+        SizedBox(height: 50.0),
         Image.asset('assets/logo.png'),
         SizedBox(height: 50.0),
         TextFormField(
@@ -65,9 +70,20 @@ class _LoginPageState extends State<LoginPage> {
           decoration: InputDecoration(
             prefixIcon: Icon(Icons.email, color: Colors.black38),
             hintText: 'Email',
-            hintStyle: TextStyle(color: Colors.black38),
+            hintStyle: TextStyle(color: Colors.black38)
           ),
-          onChanged: (value) => _email = value.trim(),
+          onChanged: (value) => _email = value.trim()
+        ),
+        SizedBox(height: 20.0),
+        TextFormField(
+          keyboardType: TextInputType.text,
+          autofocus: false,
+          decoration: InputDecoration(
+            prefixIcon: Icon(Icons.person, color: Colors.black38),
+            hintText: 'Username',
+            hintStyle: TextStyle(color: Colors.black38)
+          ),
+          onChanged: (value) => _username = value.trim()
         ),
         SizedBox(height: 20.0),
         TextFormField(
@@ -86,63 +102,38 @@ class _LoginPageState extends State<LoginPage> {
               },
               child: Icon(
                 _obscureText ? Icons.visibility : Icons.visibility_off,
-                color: Colors.black45,
-              ),
-            ),
+                color: Colors.black45
+              )
+            )
           ),
-          onChanged: (value) => _password = value.trim(),
+          onChanged: (value) => _password = value.trim()
         ),
-        SizedBox(height: 15.0),
+        SizedBox(height: 30.0),
         Padding(
           padding: EdgeInsets.only(top: 16.0),
           child: RaisedButton(
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
             onPressed: () {
-              signIn(_email, _password);
+              signUp(_email, _password);
+              Navigator.pop(context);
             },
             padding: EdgeInsets.all(12),
             color: Colors.lightBlueAccent,
-            child: Text('Log In', style: TextStyle(color: Colors.white)),
-          ),
-        ),
-        FlatButton(
-          child: Text('Forgot password?', style: TextStyle(color: Colors.black54)),
-          onPressed: () {
-            // Forgot password implementation
-          },
-        ),
-        FlatButton(
-          onPressed: () {
-            Navigator.pushNamed(context, '/registration');
-          },
-          child: Text('Not a member? Sign up now', style: TextStyle(color: Colors.black54))
-        ),
-        Row(children: <Widget>[
-          Expanded(
-            child: Container(
-              margin: const EdgeInsets.only(right: 20.0),
-              child: Divider(height: 45, color: Colors.black54)
-            ),
-          ),
-          Text(
-            'OR',
-            style: TextStyle(color: Colors.black54, fontWeight: FontWeight.bold)
-          ),
-          Expanded(
-            child: Container(
-              margin: const EdgeInsets.only(left: 20.0),
-              child: Divider(height: 45, color: Colors.black54)
-            )
+            child: Text('Register', style: TextStyle(color: Colors.white))
           )
-        ]),
-        RaisedButton(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
+        ),
+        SizedBox(height: 20.0),
+        FlatButton(
+          child: Row(
+            children: <Widget>[
+              Icon(Icons.arrow_back, color: Colors.black54, size: 18.0),
+              Text(' back to Login', style: TextStyle(color: Colors.black54))
+            ],
+            mainAxisSize: MainAxisSize.min,
+          ),
           onPressed: () {
-            Navigator.pushNamed(context, '/anonymous');
-          },
-          padding: EdgeInsets.all(12),
-          color: Colors.red,
-          child: Text('Continue anonymously', style: TextStyle(color: Colors.white))
+            Navigator.pop(context);
+          }
         )
       ]
     );
