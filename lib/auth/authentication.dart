@@ -13,7 +13,7 @@ class Auth extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.active) {
           FirebaseUser user = snapshot.data;
           if (user == null) return LoginPage();
-          return HomePage();
+          return HomePage(userdetails: snapshot.data);
         } else {
           return Scaffold(
             body: Column(
